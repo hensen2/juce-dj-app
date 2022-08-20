@@ -38,9 +38,14 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player, AudioFormatManager& formatManagerToUse,
         loadImage, 0.7f, Colours::transparentBlack,
         0.5f);
 
-    // Draw sliders to deck
+    // Draw gain slider to deck
     addAndMakeVisible(volSlider);
+    volSlider.setRotaryParameters(MathConstants<float>::pi * 1.2f, MathConstants<float>::pi * 2.8f, true);
+
+    // Draw speed slider to deck
     addAndMakeVisible(speedSlider);
+    speedSlider.setRotaryParameters(MathConstants<float>::pi * 1.2f, MathConstants<float>::pi * 2.8f, true);
+
     addAndMakeVisible(posSlider);
 
     addAndMakeVisible(waveformDisplay);
@@ -78,6 +83,9 @@ void DeckGUI::paint (Graphics& g)
        You should replace everything in this method with your own
        drawing code..
     */
+    double rowH = getHeight() / 8;
+    double paddingH = getHeight() / 16;
+    double paddingW = getWidth() / 8;
 
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
 
@@ -85,9 +93,11 @@ void DeckGUI::paint (Graphics& g)
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
 
     g.setColour (Colours::white);
-    g.setFont (14.0f);
-    g.drawText ("DeckGUI", getLocalBounds(),
+    g.setFont (12.0f);
+    g.drawText ("Gain", paddingW * 1.5, paddingH * 2.7, getWidth() / 5, getHeight() / 3.5,
                 Justification::centred, true);   // draw some placeholder text
+    g.drawText("Speed", getWidth() - (paddingW * 3), paddingH * 2.7, getWidth() / 5, getHeight() / 3.5,
+        Justification::centred, true);
 }
 
 void DeckGUI::resized()
@@ -103,9 +113,11 @@ void DeckGUI::resized()
     stopButton.setBounds(getWidth() / 2 - 30, paddingH, 60, 60);
     loadButton.setBounds(getWidth() - 80 - paddingW, paddingH, 80, 60);
 
-    // Slider bounds
-    volSlider.setBounds(0, rowH * 2, getWidth(), rowH);
-    speedSlider.setBounds(0, rowH * 3, getWidth(), rowH);
+    // Rotary Slider bounds
+    volSlider.setBounds(paddingW * 1.5, paddingH * 3, getWidth() / 5, getHeight() / 3.5);
+    speedSlider.setBounds(getWidth() - (paddingW * 3), paddingH * 3, getWidth() / 5, getHeight() / 3.5);
+
+    // Horizontal Slider bounds
     posSlider.setBounds(0, rowH * 4, getWidth(), rowH);
 
     // Waveform bounds
@@ -180,18 +192,3 @@ void DeckGUI::timerCallback()
     DBG("DeckGUI::timerCallback");
     waveformDisplay.setPositionRelative(player->getPositionRelative());
 }
-
-/*
-auto ib = addToList(new ImageButton("ImageButton"));
-
-auto juceImage = getImageFromAssets("juce_icon.png");
-
-ib->setImages(true, true, true,
-    juceImage, 0.7f, Colours::transparentBlack,
-    juceImage, 1.0f, Colours::transparentBlack,
-    juceImage, 1.0f, getRandomBrightColour().withAlpha(0.8f),
-    0.5f);
-
-ib->setBounds(45, 380, 100, 100);
-ib->setTooltip("ImageButton - showing alpha-channel hit-testing and colour overlay when clicked");
-*/

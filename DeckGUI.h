@@ -50,7 +50,7 @@ private:
     ImageButton loadButton{ "Load" };
 
     Slider volSlider{ Slider::Rotary, Slider::TextBoxBelow};
-    Slider speedSlider;
+    Slider speedSlider{ Slider::Rotary, Slider::TextBoxBelow };
     Slider posSlider;
 
     Image playImage{ ImageCache::getFromMemory(BinaryData::playbutton_png, BinaryData::playbutton_pngSize) };
