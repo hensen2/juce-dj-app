@@ -41,14 +41,21 @@ public:
     void timerCallback() override;
 
 private:
+    //TextButton playButton{ "PLAY" };
+    //TextButton stopButton{ "STOP" };
+    //TextButton loadButton{ "LOAD" };
 
-    TextButton playButton{ "PLAY" };
-    TextButton stopButton{ "STOP" };
-    TextButton loadButton{ "LOAD" };
+    ImageButton playButton{ "Play" };
+    ImageButton stopButton{ "Stop" };
+    ImageButton loadButton{ "Load" };
 
-    Slider volSlider;
+    Slider volSlider{ Slider::Rotary, Slider::TextBoxBelow};
     Slider speedSlider;
     Slider posSlider;
+
+    Image playImage{ ImageCache::getFromMemory(BinaryData::playbutton_png, BinaryData::playbutton_pngSize) };
+    Image stopImage{ ImageCache::getFromMemory(BinaryData::stopbutton_png, BinaryData::stopbutton_pngSize) };
+    Image loadImage{ ImageCache::getFromMemory(BinaryData::importbutton_png, BinaryData::importbutton_pngSize) };
 
     FileChooser fChooser{ "Select a file..." };
 

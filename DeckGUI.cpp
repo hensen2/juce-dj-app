@@ -14,12 +14,31 @@
 //==============================================================================
 DeckGUI::DeckGUI(DJAudioPlayer* _player, AudioFormatManager& formatManagerToUse, AudioThumbnailCache& cacheToUse) : player(_player), waveformDisplay(formatManagerToUse, cacheToUse)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
+    // Draw play button to deck
     addAndMakeVisible(playButton);
-    addAndMakeVisible(stopButton);
-    addAndMakeVisible(loadButton);
+    playButton.setImages(true, true, true,
+        playImage, 0.7f, Colours::transparentBlack,
+        playImage, 1.0f, Colours::transparentBlack,
+        playImage, 0.7f, Colours::transparentBlack,
+        0.5f);
 
+    // Draw stop button to deck
+    addAndMakeVisible(stopButton);
+    stopButton.setImages(true, true, true,
+        stopImage, 0.7f, Colours::transparentBlack,
+        stopImage, 1.0f, Colours::transparentBlack,
+        stopImage, 0.7f, Colours::transparentBlack,
+        0.5f);
+
+    // Draw load button to deck
+    addAndMakeVisible(loadButton);
+    loadButton.setImages(true, true, true,
+        loadImage, 0.7f, Colours::transparentBlack,
+        loadImage, 1.0f, Colours::transparentBlack,
+        loadImage, 0.7f, Colours::transparentBlack,
+        0.5f);
+
+    // Draw sliders to deck
     addAndMakeVisible(volSlider);
     addAndMakeVisible(speedSlider);
     addAndMakeVisible(posSlider);
@@ -76,13 +95,22 @@ void DeckGUI::resized()
     // This method is where you should set the bounds of any child
     // components that your component contains..
     double rowH = getHeight() / 8;
-    playButton.setBounds(0, 0, getWidth(), rowH);
-    stopButton.setBounds(0, rowH, getWidth(), rowH);
+    double paddingH = getHeight() / 16;
+    double paddingW = getWidth() / 8;
+
+    // Button bounds
+    playButton.setBounds(paddingW, paddingH, 60, 60);
+    stopButton.setBounds(getWidth() / 2 - 30, paddingH, 60, 60);
+    loadButton.setBounds(getWidth() - 80 - paddingW, paddingH, 80, 60);
+
+    // Slider bounds
     volSlider.setBounds(0, rowH * 2, getWidth(), rowH);
     speedSlider.setBounds(0, rowH * 3, getWidth(), rowH);
     posSlider.setBounds(0, rowH * 4, getWidth(), rowH);
+
+    // Waveform bounds
     waveformDisplay.setBounds(0, rowH * 5, getWidth(), rowH * 2);
-    loadButton.setBounds(0, rowH * 7, getWidth(), rowH);
+    
 }
 
 void DeckGUI::buttonClicked(Button* button)
@@ -152,3 +180,18 @@ void DeckGUI::timerCallback()
     DBG("DeckGUI::timerCallback");
     waveformDisplay.setPositionRelative(player->getPositionRelative());
 }
+
+/*
+auto ib = addToList(new ImageButton("ImageButton"));
+
+auto juceImage = getImageFromAssets("juce_icon.png");
+
+ib->setImages(true, true, true,
+    juceImage, 0.7f, Colours::transparentBlack,
+    juceImage, 1.0f, Colours::transparentBlack,
+    juceImage, 1.0f, getRandomBrightColour().withAlpha(0.8f),
+    0.5f);
+
+ib->setBounds(45, 380, 100, 100);
+ib->setTooltip("ImageButton - showing alpha-channel hit-testing and colour overlay when clicked");
+*/

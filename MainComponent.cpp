@@ -5,7 +5,7 @@ MainComponent::MainComponent()
 {
     // Make sure you set the size of the component after
     // you add any child components.
-    setSize (800, 600);
+    setSize (1000, 750);
 
     // Some platforms require permissions to open input channels so request that here
     if (RuntimePermissions::isRequired (RuntimePermissions::recordAudio)
@@ -17,7 +17,7 @@ MainComponent::MainComponent()
     else
     {
         // Specify the number of input and output channels that we want to open
-        setAudioChannels (0, 2);
+        setAudioChannels (2, 2);
     }
 
     addAndMakeVisible(deckGUI1);
@@ -85,7 +85,7 @@ void MainComponent::resized()
     // update their positions.
 
     // updates button size every time window is resized
-    deckGUI1.setBounds(0, 0, getWidth() / 2, getHeight() / 2);
-    deckGUI2.setBounds(getWidth() / 2, 0, getWidth() / 2, getHeight() / 2);
-    playlistComponent.setBounds(0, getHeight() / 2, getWidth(), getHeight() / 2);
+    deckGUI1.setBounds(0, 0, getWidth() / 2, getHeight() * 2 / 3);
+    deckGUI2.setBounds(getWidth() / 2, 0, getWidth() / 2, getHeight() * 2 / 3);
+    playlistComponent.setBounds(0, getHeight() * 2 / 3, getWidth(), getHeight() / 3);
 }
