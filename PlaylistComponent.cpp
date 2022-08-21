@@ -21,8 +21,11 @@ PlaylistComponent::PlaylistComponent()
     trackTitles.push_back("Track 3");
     trackTitles.push_back("Track 4");  
 
-    tableComponent.getHeader().addColumn("Track Title", 1, 400);
-    tableComponent.getHeader().addColumn("Artist", 2, 200);
+    tableComponent.getHeader().addColumn("Track Title", 1, 200);
+    tableComponent.getHeader().addColumn("Duration", 2, 125);
+    tableComponent.getHeader().addColumn("Add to L", 3, 125);
+    tableComponent.getHeader().addColumn("Add to R", 4, 125);
+    tableComponent.getHeader().addColumn("Delete", 5, 125);
 
     tableComponent.setModel(this);
 
@@ -84,14 +87,35 @@ void PlaylistComponent::paintCell(Graphics& g, int rowNumber, int columnId, int 
 
 Component* PlaylistComponent::refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate)
 {
-    if (columnId == 2)
+    if (columnId == 3)
     {
         if (existingComponentToUpdate == nullptr)
         {
-            TextButton* btn = new TextButton("play");
+            TextButton* btn = new TextButton("Load L");
             String id{ std::to_string(rowNumber) };
             btn->setComponentID(id);
-
+            btn->addListener(this);
+            existingComponentToUpdate = btn;
+        }
+    }
+    if (columnId == 4)
+    {
+        if (existingComponentToUpdate == nullptr)
+        {
+            TextButton* btn = new TextButton("Load R");
+            String id{ std::to_string(rowNumber) };
+            btn->setComponentID(id);
+            btn->addListener(this);
+            existingComponentToUpdate = btn;
+        }
+    }
+    if (columnId == 5)
+    {
+        if (existingComponentToUpdate == nullptr)
+        {
+            TextButton* btn = new TextButton("Delete");
+            String id{ std::to_string(rowNumber) };
+            btn->setComponentID(id);
             btn->addListener(this);
             existingComponentToUpdate = btn;
         }

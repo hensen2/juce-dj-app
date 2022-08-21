@@ -20,7 +20,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player, AudioFormatManager& formatManagerToUse,
         playImage, 0.7f, Colours::transparentBlack,
         playImage, 1.0f, Colours::transparentBlack,
         playImage, 0.7f, Colours::transparentBlack,
-        0.5f);
+        0.0f);
 
     // Draw stop button to deck
     addAndMakeVisible(stopButton);
@@ -28,7 +28,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player, AudioFormatManager& formatManagerToUse,
         stopImage, 0.7f, Colours::transparentBlack,
         stopImage, 1.0f, Colours::transparentBlack,
         stopImage, 0.7f, Colours::transparentBlack,
-        0.5f);
+        0.0f);
 
     // Draw load button to deck
     addAndMakeVisible(loadButton);
@@ -36,18 +36,33 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player, AudioFormatManager& formatManagerToUse,
         loadImage, 0.7f, Colours::transparentBlack,
         loadImage, 1.0f, Colours::transparentBlack,
         loadImage, 0.7f, Colours::transparentBlack,
-        0.5f);
+        0.0f);
 
     // Draw gain slider to deck
     addAndMakeVisible(volSlider);
     volSlider.setRotaryParameters(MathConstants<float>::pi * 1.2f, MathConstants<float>::pi * 2.8f, true);
+    addAndMakeVisible(volLabel);
+    volLabel.setText("Gain", dontSendNotification);
+    volLabel.attachToComponent(&volSlider, true);
+    volLabel.setJustificationType(Justification::centred);
 
     // Draw speed slider to deck
     addAndMakeVisible(speedSlider);
     speedSlider.setRotaryParameters(MathConstants<float>::pi * 1.2f, MathConstants<float>::pi * 2.8f, true);
+    addAndMakeVisible(speedLabel);
+    speedLabel.setText("Speed", dontSendNotification);
+    speedLabel.attachToComponent(&speedSlider, true);
+    speedLabel.setJustificationType(Justification::centred);
 
+    // Draw position slider to deck
     addAndMakeVisible(posSlider);
+    posSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    addAndMakeVisible(posLabel);
+    posLabel.setText("Position", dontSendNotification);
+    posLabel.attachToComponent(&posSlider, true);
+    posLabel.setJustificationType(Justification::centred);
 
+    // Draw waveform display to deck
     addAndMakeVisible(waveformDisplay);
 
     // === Registers for events received === //
@@ -77,15 +92,6 @@ DeckGUI::~DeckGUI()
 
 void DeckGUI::paint (Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-    double rowH = getHeight() / 8;
-    double paddingH = getHeight() / 16;
-    double paddingW = getWidth() / 8;
 
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
 
@@ -93,17 +99,13 @@ void DeckGUI::paint (Graphics& g)
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
 
     g.setColour (Colours::white);
-    g.setFont (12.0f);
-    g.drawText ("Gain", paddingW * 1.5, paddingH * 2.7, getWidth() / 5, getHeight() / 3.5,
-                Justification::centred, true);   // draw some placeholder text
-    g.drawText("Speed", getWidth() - (paddingW * 3), paddingH * 2.7, getWidth() / 5, getHeight() / 3.5,
-        Justification::centred, true);
+    g.setFont (14.0f);
+
 }
 
 void DeckGUI::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
+
     double rowH = getHeight() / 8;
     double paddingH = getHeight() / 16;
     double paddingW = getWidth() / 8;
@@ -118,7 +120,7 @@ void DeckGUI::resized()
     speedSlider.setBounds(getWidth() - (paddingW * 3), paddingH * 3, getWidth() / 5, getHeight() / 3.5);
 
     // Horizontal Slider bounds
-    posSlider.setBounds(0, rowH * 4, getWidth(), rowH);
+    posSlider.setBounds(paddingW * 1.2, rowH * 4, getWidth() - (paddingW * 2), rowH);
 
     // Waveform bounds
     waveformDisplay.setBounds(0, rowH * 5, getWidth(), rowH * 2);

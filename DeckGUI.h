@@ -41,21 +41,25 @@ public:
     void timerCallback() override;
 
 private:
-    //TextButton playButton{ "PLAY" };
-    //TextButton stopButton{ "STOP" };
-    //TextButton loadButton{ "LOAD" };
-
+    // Create buttons
     ImageButton playButton{ "Play" };
     ImageButton stopButton{ "Stop" };
     ImageButton loadButton{ "Load" };
 
-    Slider volSlider{ Slider::Rotary, Slider::TextBoxBelow};
-    Slider speedSlider{ Slider::Rotary, Slider::TextBoxBelow };
+    // Create sliders
+    Slider volSlider{ Slider::Rotary, Slider::NoTextBox};
+    Slider speedSlider{ Slider::Rotary, Slider::NoTextBox };
     Slider posSlider;
 
-    Image playImage{ ImageCache::getFromMemory(BinaryData::playbutton_png, BinaryData::playbutton_pngSize) };
-    Image stopImage{ ImageCache::getFromMemory(BinaryData::stopbutton_png, BinaryData::stopbutton_pngSize) };
-    Image loadImage{ ImageCache::getFromMemory(BinaryData::importbutton_png, BinaryData::importbutton_pngSize) };
+    // Add labels to sliders 
+    Label volLabel;
+    Label speedLabel;
+    Label posLabel;
+
+    // Create images for buttons
+    Image playImage{ ImageCache::getFromMemory(BinaryData::play_png, BinaryData::play_pngSize) };
+    Image stopImage{ ImageCache::getFromMemory(BinaryData::stop_png, BinaryData::stop_pngSize) };
+    Image loadImage{ ImageCache::getFromMemory(BinaryData::load_png, BinaryData::load_pngSize) };
 
     FileChooser fChooser{ "Select a file..." };
 
