@@ -34,6 +34,7 @@ public:
 
     // get the relative position of the playhead
     double getPositionRelative();
+    double getLengthInSeconds();
 
 private:
 

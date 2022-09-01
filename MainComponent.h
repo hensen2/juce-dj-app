@@ -41,7 +41,9 @@ private:
 
     MixerAudioSource mixerSource;
 
-    PlaylistComponent playlistComponent;
+    DJAudioPlayer playerForParsingMetaData{ formatManager };
+
+    PlaylistComponent playlistComponent{ &deckGUI1, &deckGUI2, &playerForParsingMetaData };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

@@ -85,7 +85,7 @@ void MainComponent::resized()
     // update their positions.
 
     // updates button size every time window is resized
-    deckGUI1.setBounds(0, 0, getWidth() / 2, getHeight() * 2 / 3);
-    deckGUI2.setBounds(getWidth() / 2, 0, getWidth() / 2, getHeight() * 2 / 3);
-    playlistComponent.setBounds(0, getHeight() * 2 / 3, getWidth(), getHeight() / 3);
+    deckGUI1.setBounds(0, 0, getWidth() / 2, getHeight() * 3 / 5);
+    deckGUI2.setBounds(getWidth() / 2, 0, getWidth() / 2, getHeight() * 3 / 5);
+    playlistComponent.setBounds(0, getHeight() * 3 / 5, getWidth(), getHeight() * 2 / 5);
 }

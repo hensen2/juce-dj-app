@@ -8,69 +8,85 @@
   ==============================================================================
 */
 
+
 #pragma once
 
 #include <JuceHeader.h>
 #include <vector>
 #include <string>
+#include "DeckGUI.h"
+#include "Track.h"
+#include "DJAudioPlayer.h"
+
 
 //==============================================================================
 /*
 */
-class PlaylistComponent  : public Component,
+class PlaylistComponent : public Component,
     public TableListBoxModel,
     public Button::Listener,
     public TextEditor::Listener
 {
 public:
-    PlaylistComponent();
-    ~PlaylistComponent() override;
+    PlaylistComponent(DeckGUI* _deckGUI1,
+        DeckGUI* _deckGUI2,
+        DJAudioPlayer* _djAudioPlayer);
+    ~PlaylistComponent();
 
-    void paint (Graphics&) override;
+    void paint(Graphics&) override;
     void resized() override;
 
     int getNumRows() override;
 
-    void paintRowBackground(Graphics&, int rowNumber, int width, int height, bool rowIsSelected) override;
+    void paintRowBackground(Graphics&,
+        int rowNumber,
+        int width,
+        int height,
+        bool rowIsSelected) override;
+    void paintCell(Graphics&,
+        int rowNumber,
+        int columnId,
+        int width,
+        int height,
+        bool rowIsSelected) override;
 
-    void paintCell(Graphics&, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
-
-    Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate) override;
+    Component* refreshComponentForCell(int rowNumber,
+        int columnId,
+        bool isRowSelected,
+        Component* existingComponentToUpdate) override;
 
     void buttonClicked(Button* button) override;
 
-    //void textEditorTextChanged(TextEditor& editor) override;
 
-    /*
-    void deleteFile(); //Deleting files from the playlist by user row number clicked
-    void loadFileIntoDeck1(); //Loads playlist files into the deckGUI component, indicating as deck 1
-    void loadFileIntoDeck2(); //Loads playlist files into the deckGUI component, indicating as deck 2
-    String fileToDeckGUI;
-    std::string stdstring;
-    */
+
 
 private:
-    TableListBox tableComponent;
+    std::vector<Track> tracks;
+    TextButton loadToDeck1Btn{ "Load in Deck 1" };
+    TextButton loadToDeck2Btn{ "Load in Deck 2" };
+    TextButton importBtn{ "Import Tracks" };
+    TextButton deleteButton{ "Delete" };
+    TableListBox playlist;
+    TextEditor searchBox;
 
-    std::vector<std::string> trackTitles;
+    DeckGUI* deckGUI1;
+    DeckGUI* deckGUI2;
+    DJAudioPlayer* djAudioPlayer;
 
-    //AudioFormatManager formatManager;
-    //Array<juce::File> myFiles;
-    //std::vector <std::string > existingFiles;
-    //double duration;
-    //String fileName;
-    //Array<double> myFilesDuration;
-    //Array<String> fileNames;
-    //TextButton libraryLoadButton{ "Load into library" };
-    //bool historyClicked = false;
-    //int duplicateIndex = -1;
-    //TextButton libraryDeleteButton;
-    //TextButton libraryDeck1;
-    //TextButton libraryDeck2;
-    //TextEditor librarySearch{ "Search for tracks..." };
-    //String searchInput;
+    FileChooser fChooser{ "Select a file..." };
+    String getLength(URL audioURL);
+    String secToMin(int seconds);
 
-    //double rowclicked;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlaylistComponent)
+    void importToPlaylist();
+    void savePlaylist();
+    void loadPlaylist();
+    void searchPlaylist(String searchText);
+    int findTrackTitle(String searchText);
+    void deleteFromTracks(int id);
+    bool isInTracks(String fileNameWithoutExtension);
+    void loadInDeck(DeckGUI* deckGUI);
+
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlaylistComponent)
 };

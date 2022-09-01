@@ -39,7 +39,7 @@ public:
     void filesDropped(const StringArray& files, int x, int y) override;
 
     void timerCallback() override;
-
+    void loadFile(URL audioURL);
 private:
     // Create buttons
     ImageButton playButton{ "Play" };

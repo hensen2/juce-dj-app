@@ -123,7 +123,7 @@ void DeckGUI::resized()
     posSlider.setBounds(paddingW * 1.2, rowH * 4, getWidth() - (paddingW * 2), rowH);
 
     // Waveform bounds
-    waveformDisplay.setBounds(0, rowH * 5, getWidth(), rowH * 2);
+    waveformDisplay.setBounds(0, rowH * 6, getWidth(), rowH * 2);
     
 }
 
@@ -186,6 +186,7 @@ void DeckGUI::filesDropped(const StringArray& files, int x, int y)
     if (files.size() == 1)
     {
         player->loadURL(URL{ File{ files[0] } });
+        waveformDisplay.loadURL(URL{ File{ files[0] } });
     }
 }
 
@@ -193,4 +194,10 @@ void DeckGUI::timerCallback()
 {
     DBG("DeckGUI::timerCallback");
     waveformDisplay.setPositionRelative(player->getPositionRelative());
+}
+
+void DeckGUI::loadFile(URL audioURL)
+{
+    player->loadURL(audioURL);
+    waveformDisplay.loadURL(audioURL);
 }
